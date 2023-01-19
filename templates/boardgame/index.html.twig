@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BoardgameController!{% endblock %}
+
+{% block body %}
+    <h1>Liste des jeux</h1>
+    <div class="container">
+        <div class="row">
+            {% for boardgame in boardgames %}
+            <div class="card col-12 col-md-6 col-lg-3">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ boardgame.title }}</h5>
+                    <p class="card-text">{{ boardgame.description }}</p>
+                    <a href="{{ path('app_show_boardgame', {id: boardgame.id}) }}" class="btn btn-primary">Voir la fiche du jeu</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
