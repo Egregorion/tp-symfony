@@ -7,6 +7,8 @@
     <div>
         {% for game in cat.boardgames %}
             <span>{{ game.title }}</span>
+            {# dump(game) #}
+            <img src="{{asset('uploads/' ~ game.picture)}}" alt="{{ game.title }}">
         {% endfor %}
     </div>
 {% endblock %}

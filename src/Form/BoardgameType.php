@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Boardgame;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,6 +21,7 @@ class BoardgameType extends AbstractType
             ->add('description')
             ->add('content')
             ->add('categories')
+            ->add('picture', FileType::class)
         ;
     }
 

@@ -8,7 +8,7 @@
         <div class="row">
             {% for boardgame in boardgames %}
             <div class="card col-12 col-md-6 col-lg-3">
-                <img src="..." class="card-img-top" alt="...">
+                <img src="{{asset('uploads/' ~ boardgame.picture)}}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{ boardgame.title }}</h5>
                     <p class="card-text">{{ boardgame.description }}</p>
