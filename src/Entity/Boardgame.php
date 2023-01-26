@@ -25,8 +25,8 @@ class Boardgame
     #[ORM\Column]
     private ?int $time = null;
 
-    #[ORM\Column]
-    private ?int $age = null;
+    #[ORM\Column(length: 255)]
+    private ?string $age = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $released = null;
@@ -89,12 +89,12 @@ class Boardgame
         return $this;
     }
 
-    public function getAge(): ?int
+    public function getAge(): ?string
     {
         return $this->age;
     }
 
-    public function setAge(int $age): self
+    public function setAge(string $age): self
     {
         $this->age = $age;
 
