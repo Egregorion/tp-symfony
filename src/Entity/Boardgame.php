@@ -1,25 +1,32 @@
 <?php
 
 namespace App\Entity;
-
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\BoardgameRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ApiResource(
+    normalizationContext:['groups' => ['boardgames']]
+)]
 #[ORM\Entity(repositoryClass: BoardgameRepository::class)]
 class Boardgame
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('boardgames')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('boardgames')]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('boardgames')]
     private ?string $players = null;
 
     #[ORM\Column]
@@ -38,6 +45,7 @@ class Boardgame
     private ?string $content = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'boardgames')]
+    #[Groups('boardgames')]
     private Collection $categories;
 
     #[ORM\Column(length: 255)]
