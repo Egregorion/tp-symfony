@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -28,6 +30,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Boardgame::class)]
+    private Collection $boardgames;
+
+    #[ORM\OneToMany(mappedBy: 'borrower', targetEntity: Loan::class)]
+    private Collection $loans;
+
+    public function __construct()
+    {
+        $this->boardgames = new ArrayCollection();
+        $this->loans = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -97,5 +111,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Boardgame>
+     */
+    public function getBoardgames(): Collection
+    {
+        return $this->boardgames;
+    }
+
+    public function addBoardgame(Boardgame $boardgame): self
+    {
+        if (!$this->boardgames->contains($boardgame)) {
+            $this->boardgames->add($boardgame);
+            $boardgame->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBoardgame(Boardgame $boardgame): self
+    {
+        if ($this->boardgames->removeElement($boardgame)) {
+            // set the owning side to null (unless already changed)
+            if ($boardgame->getOwner() === $this) {
+                $boardgame->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Loan>
+     */
+    public function getLoans(): Collection
+    {
+        return $this->loans;
+    }
+
+    public function addLoan(Loan $loan): self
+    {
+        if (!$this->loans->contains($loan)) {
+            $this->loans->add($loan);
+            $loan->setBorrower($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoan(Loan $loan): self
+    {
+        if ($this->loans->removeElement($loan)) {
+            // set the owning side to null (unless already changed)
+            if ($loan->getBorrower() === $this) {
+                $loan->setBorrower(null);
+            }
+        }
+
+        return $this;
     }
 }

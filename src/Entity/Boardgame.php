@@ -51,9 +51,16 @@ class Boardgame
     #[ORM\Column(length: 255)]
     private ?string $picture = null;
 
+    #[ORM\ManyToOne(inversedBy: 'boardgames')]
+    private ?User $owner = null;
+
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Loan::class)]
+    private Collection $loans;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->loans = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,7 +68,7 @@ class Boardgame
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    function getTitle(): ?string
     {
         return $this->title;
     }
@@ -182,6 +189,48 @@ class Boardgame
     public function setPicture(string $picture): self
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Loan>
+     */
+    public function getLoans(): Collection
+    {
+        return $this->loans;
+    }
+
+    public function addLoan(Loan $loan): self
+    {
+        if (!$this->loans->contains($loan)) {
+            $this->loans->add($loan);
+            $loan->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoan(Loan $loan): self
+    {
+        if ($this->loans->removeElement($loan)) {
+            // set the owning side to null (unless already changed)
+            if ($loan->getGame() === $this) {
+                $loan->setGame(null);
+            }
+        }
 
         return $this;
     }
