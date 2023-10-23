@@ -3,10 +3,55 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-    <h1>{{ game.title }}</h1>
-    <div>
-        {% for cat in game.categories %}
-            <span>{{ cat.name }}</span>
-        {% endfor %}
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <img class="img-fluid" src="{{ '/uploads/' ~ game.picture}}" alt="{{ game.title }}">
+            </div>
+            <div class="col-12 col-md-8">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h1>{{ game.title }}</h1>
+                        <span>{{ game.released | date('Y') }}</span>
+                    </div>
+                    <div>
+                    {% if app.user %}
+                        <a href="{{ path('app_loan_new', {id: game.id}) }}" class="btn btn-success">Emprunter</a>
+                    {% else %}
+                        <a href="{{ path('app_login')}}" class="btn btn-danger">Se Connecter pour emprunter</a>
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-evenly mt-5">
+                    <div class="col text-center text-info">
+                        <i class="fa-solid fa-users fa-3x"></i>
+                        <p class="text-dark">{{ game.players }}</p>
+                    </div>
+                    <div class="col text-center text-success">
+                        <i class="fa-solid fa-cake-candles fa-3x"></i>
+                        <p class="text-dark">{{ game.age }}</p>
+                    </div>
+                    <div class="col text-center text-danger">
+                        <i class="fa-solid fa-stopwatch fa-3x"></i>
+                        <p class="text-dark">{{ game.time }}</p>
+                    </div>
+                    <div class="col-12">
+                    {% for cat in game.categories %}
+                        <a class="badge text-bg-secondary text-decoration-none" href="{{ path('app_show_category', {id: cat.id}) }}">{{ cat.name }}</a>
+                    {% endfor %} 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <h2>Contenu de la boite</h2>
+                {{ game.content | raw }}
+            </div>
+            <div class="col-12 col-md-8 order-2 order-sm-1">
+                <h2>Description du jeu</h2>
+                {{ game.description | raw }}
+            </div>
+        </div>
     </div>
 {% endblock %}

@@ -4,11 +4,16 @@
 
 {% block body %}
     <h1>{{ cat.name }}</h1>
-    <div>
-        {% for game in cat.boardgames %}
-            <span>{{ game.title }}</span>
-            {# dump(game) #}
-            <img src="{{asset('uploads/' ~ game.picture)}}" alt="{{ game.title }}">
+    <div class="row">
+        {% for boardgame in cat.boardgames %}
+        <div class="card col-12 col-md-6 col-lg-3">
+            <img src="{{asset('uploads/' ~ boardgame.picture)}}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ boardgame.title }}</h5>
+                <p class="card-text">{{ boardgame.description | u.truncate(100) }}</p>
+                <a href="{{ path('app_show_boardgame', {id: boardgame.id}) }}" class="btn btn-primary">Voir la fiche du jeu</a>
+            </div>
+        </div>
         {% endfor %}
     </div>
 {% endblock %}

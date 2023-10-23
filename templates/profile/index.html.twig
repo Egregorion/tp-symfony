@@ -29,8 +29,8 @@
                         <td>{{ game.title }}</td>
                         <td><img class="img-fluid w-25" src="uploads/{{ game.picture }}" alt="{{ game.title }}"></td>
                         <td>
-                            <span>edit</span>
-                            <span>delete</span>
+                            <span><a href="{{ path('app_edit_boardgame', {id: game.id}) }}">edit</a></span>
+                            <span><a href="{{ path('app_delete_boardgame', {id: game.id}) }}">delete</a></span>
                         </td>
                     </tr>
                     {% endfor %}

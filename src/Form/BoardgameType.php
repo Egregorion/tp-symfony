@@ -21,7 +21,10 @@ class BoardgameType extends AbstractType
             ->add('description')
             ->add('content')
             ->add('categories')
-            ->add('picture', FileType::class)
+            ->add('picture', FileType::class, [
+                'required' => false,
+                'mapped' => false
+            ])
         ;
     }
 

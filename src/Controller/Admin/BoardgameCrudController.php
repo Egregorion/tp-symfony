@@ -34,7 +34,8 @@ class BoardgameCrudController extends AbstractCrudController
             ImageField::new('picture')
                 ->setBasePath('uploads/')
                 ->setUploadDir('public/uploads')
-                ->setRequired(false)
+                ->setRequired(false),
+            AssociationField::new('owner')
         ];
     }
     

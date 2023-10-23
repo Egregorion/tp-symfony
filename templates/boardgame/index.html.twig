@@ -11,7 +11,10 @@
                 <img src="{{asset('uploads/' ~ boardgame.picture)}}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{ boardgame.title }}</h5>
-                    <p class="card-text">{{ boardgame.description }}</p>
+                    {% for cat in boardgame.categories %}
+                        <a class="badge text-bg-secondary text-decoration-none" href="{{ path('app_show_category', {id: cat.id}) }}">{{ cat }}</a>
+                    {% endfor %}
+                    <p class="card-text">{{ boardgame.description | u.truncate(100) }}</p>
                     <a href="{{ path('app_show_boardgame', {id: boardgame.id}) }}" class="btn btn-primary">Voir la fiche du jeu</a>
                 </div>
             </div>
